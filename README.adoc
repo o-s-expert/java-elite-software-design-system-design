@@ -60,7 +60,30 @@
 
 == Software Design
 
+=== Basic Principles of Software Design
+
+- SOLID principles
+    - Single Responsibility Principle (SRP)
+    - Open/Closed Principle (OCP)
+    - Liskov Substitution Principle (LSP)
+    - Interface Segregation Principle (ISP)
+    - Dependency Inversion Principle (DIP)
+- DRY (Don't Repeat Yourself)
+- KISS (Keep It Simple, Stupid)
+- YAGNI (You Aren't Gonna Need It)
+- Separation of Concerns
+- Composition over Inheritance
+- Law of Demeter (Principle of Least Knowledge)
+- Coupling and Cohesion
+- Encapsulation
+- Code readability and maintainability
+- Testability and TDD (Test-Driven Development)
+- Refactoring and code smells
+
+
 === Design Patterns
+
+- Why use design patterns?
 - Singleton
 - Factory
 - Strategy

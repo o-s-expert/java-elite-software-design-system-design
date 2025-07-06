@@ -13,6 +13,7 @@
 
 === Basic Principles of System Design
 
+- Documentations
 - System components: front-end, back-end, databases, caches
 - Scalability: vertical vs horizontal
 - Availability and consistency: CAP theorem and trade-offs

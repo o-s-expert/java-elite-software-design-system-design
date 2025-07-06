@@ -24,6 +24,9 @@
 - NoSQL
 - NewSQL
 - CAP / PACELC
+- ETL (Extract, Transform, Load)
+- ELT (Extract, Load, Transform)
+- Data warehousing and data lakes
 
 === Designing Scalable Systems
 

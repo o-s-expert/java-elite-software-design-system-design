@@ -17,7 +17,15 @@
 - System components: front-end, back-end, databases, caches
 - Scalability: vertical vs horizontal
 - Latency and throughput: how to optimize both
-- Documentations
+
+
+=== Documentations
+
+- How to document a system design
+- Use of diagrams (UML, C4 model)
+- Importance of clear and concise documentation
+- Documentation as code
+-- Why documentation as code is important?
 
 === Databases
 

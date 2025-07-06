@@ -40,8 +40,10 @@ Software Design vs Software Architecture
 - High-scale e-commerce (like Amazon)
 
 === Recommended Reading
-- *System Design Interview* Vol. 1: https://www.amazon.com.br/dp/B08B3FWYBX/
-- *System Design Interview* Vol. 2: https://www.amazon.com.br/dp/1736049119/
+
+* Xu, A. (2020). _System Design Interview – An Insider’s Guide_. ByteByteGo. https://www.amazon.com.br/dp/B08B3FWYBX/
+* Xu, A. (2021). _System Design Interview – An Insider’s Guide, Volume 2_. ByteByteGo. https://www.amazon.com.br/dp/1736049119/
+
 == Software Design
 
 === Design Patterns
@@ -73,8 +75,9 @@ Software Design vs Software Architecture
 - Refactoring
 
 === Recommended Reading
-- *Clean Code*
-- *A Philosophy of Software Design, 2nd Edition*
-- *Balancing Coupling in Software Design: Universal Design Principles for Architecting Modular Software Systems*
-- *Refactoring: Improving the Design of Existing Code*
-- *Tidy First?: A Personal Exercise in Empirical Software Design*
+
+* Martin, R. C. (2008). _Clean Code: A Handbook of Agile Software Craftsmanship_. Prentice Hall.
+* Ousterhout, J. (2021). _A Philosophy of Software Design_ (2nd ed.). Yaknyam Press.
+* Khononov, V. (2021). _Balancing Coupling in Software Design: Universal Design Principles for Architecting Modular Software Systems_. Manning Publications.
+* Fowler, M. (2018). _Refactoring: Improving the Design of Existing Code_ (2nd ed.). Addison-Wesley.
+* Beck, K. (2023). _Tidy First?: A Personal Exercise in Empirical Software Design_. Oddprint.

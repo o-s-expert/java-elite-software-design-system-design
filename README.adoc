@@ -1,2 +1,4 @@
 = java-elite-software-design-system-design
+:toc: auto
+
 Java Elite Material at the Software Design and System Design module

@@ -12,34 +12,40 @@
 == System Design
 
 === Basic Principles of System Design
+
 - System components: front-end, back-end, databases, caches
 - Scalability: vertical vs horizontal
 - Availability and consistency: CAP theorem and trade-offs
 - Latency and throughput: how to optimize both
 
 === Databases
+
 - SQL
 - NoSQL
 - NewSQL
 - CAP / PACELC
 
 === Designing Scalable Systems
+
 - Data partitioning (sharding)
 - Load balancers
 - Use of caches (Redis, Memcached) for optimization
 - Distributed databases and replication
 
 === Communication Between Components
+
 - Synchronous APIs (REST, gRPC)
 - Asynchronous communication with queues and message brokers (Kafka, RabbitMQ)
 - Robust interface design for integration
 
 === High Availability and Fault Tolerance
+
 - Resilient projects with Circuit Breakers and retries
 - Replication and failover strategies
 - Tools for monitoring and automatic recovery (auto-healing)
 
 === Practical Case Studies
+
 - Reservation system (like Uber or Booking)
 - Social media feed (like Instagram or Twitter)
 - High-scale e-commerce (like Amazon)

@@ -2,7 +2,12 @@
 :toc: auto
 
 == Introduction
-Software Design vs Software Architecture
+
+* Software Design vs Software Architecture
+* System Design vs Software Design
+* Importance of understanding both for software engineers
+* Overview of the topics covered in this document
+
 
 == System Design
 

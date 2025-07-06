@@ -13,12 +13,12 @@
 
 === Basic Principles of System Design
 
-- Documentations
 - Tiers vs layers
 - System components: front-end, back-end, databases, caches
 - Scalability: vertical vs horizontal
 - Availability and consistency: CAP theorem and trade-offs
 - Latency and throughput: how to optimize both
+- Documentations
 
 === Databases
 

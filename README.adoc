@@ -1,4 +1,81 @@
-= java-elite-software-design-system-design
+= Software Design & System Design
 :toc: auto
 
-Java Elite Material at the Software Design and System Design module
+== Introduction
+Software Design vs Software Architecture
+
+== Software Design
+
+=== Design Patterns
+- Singleton
+- Factory
+- Strategy
+- Observer
+- Builder
+- Prototype
+- Adapter
+- Decorator
+- Proxy
+
+=== Introduction to Domain-Driven Design (DDD)
+
+==== Strategic DDD
+- Bounded Context
+- Context Mapping
+- Ubiquitous Language
+- Patterns of integrations
+
+==== Tactical DDD
+- Patterns
+- Overview
+- Entity
+- Aggregator
+- Repository
+- Coupling/Decoupling
+- Refactoring
+
+=== Recommended Reading
+- *Clean Code*
+- *A Philosophy of Software Design, 2nd Edition*
+- *Balancing Coupling in Software Design: Universal Design Principles for Architecting Modular Software Systems*
+- *Refactoring: Improving the Design of Existing Code*
+- *Tidy First?: A Personal Exercise in Empirical Software Design*
+
+== System Design
+
+=== Basic Principles of System Design
+- System components: front-end, back-end, databases, caches
+- Scalability: vertical vs horizontal
+- Availability and consistency: CAP theorem and trade-offs
+- Latency and throughput: how to optimize both
+
+=== Databases
+- SQL
+- NoSQL
+- NewSQL
+- CAP / PACELC
+
+=== Designing Scalable Systems
+- Data partitioning (sharding)
+- Load balancers
+- Use of caches (Redis, Memcached) for optimization
+- Distributed databases and replication
+
+=== Communication Between Components
+- Synchronous APIs (REST, gRPC)
+- Asynchronous communication with queues and message brokers (Kafka, RabbitMQ)
+- Robust interface design for integration
+
+=== High Availability and Fault Tolerance
+- Resilient projects with Circuit Breakers and retries
+- Replication and failover strategies
+- Tools for monitoring and automatic recovery (auto-healing)
+
+=== Practical Case Studies
+- Reservation system (like Uber or Booking)
+- Social media feed (like Instagram or Twitter)
+- High-scale e-commerce (like Amazon)
+
+=== Recommended Reading
+- *System Design Interview* Vol. 1: https://www.amazon.com.br/dp/B08B3FWYBX/
+- *System Design Interview* Vol. 2: https://www.amazon.com.br/dp/1736049119/

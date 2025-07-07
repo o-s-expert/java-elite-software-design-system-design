@@ -1,13 +1,8 @@
-= Solution: Credit Card Lifecycle
-:toc: left
-:icons: font
-:sectnums:
-:kroki-server-url: https://kroki.io
+# 🧪 Solution: Credit Card Lifecycle
 
-== 🖼️ State Diagram (Mermaid)
+## 🖼️ State Diagram (Mermaid)
 
-[source, mermaid]
-----
+```mermaid
 stateDiagram-v2
     [*] --> Created : 🆕 Issue Card
     Created --> Active : 🟢 Activate
@@ -16,9 +11,9 @@ stateDiagram-v2
     Active --> Cancelled : ❌ Cancel
     Created --> Cancelled : 🚫 Reject
     Cancelled --> [*]
-----
+```
 
-== 📌 Observations
+## 📌 Observations
 
 * `Created` is the state right after issuing a card.
 * `Active` is the fully operational state.
@@ -27,3 +22,4 @@ stateDiagram-v2
 * You can **loop** between `Active` and `Suspended`, which is useful for fraud prevention, travel pauses, etc.
 
 🧠 _This diagram helps developers and stakeholders clearly understand the allowed transitions in a card's lifecycle._
+

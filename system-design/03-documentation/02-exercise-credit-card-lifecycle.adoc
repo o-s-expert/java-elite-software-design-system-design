@@ -1,4 +1,4 @@
-= ✅ Solution: Credit Card Lifecycle 🪪💳
+= Solution: Credit Card Lifecycle
 :toc: left
 :icons: font
 :sectnums:

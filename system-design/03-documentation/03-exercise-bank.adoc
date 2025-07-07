@@ -5,7 +5,7 @@ Otávio Santana
 :sectnums:
 :kroki-server-url: https://kroki.io
 
-[mermaid,format="svg"]
+[source, mermaid]
 ----
 C4Context
     title 🏦 Bank System Context

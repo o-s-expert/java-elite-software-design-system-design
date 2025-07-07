@@ -1,5 +1,4 @@
 = 🧪 Solution: Java Server Request Flow - Sequence Diagram
-Otávio Santana
 :toc: left
 :icons: font
 :source-highlighter: highlightjs

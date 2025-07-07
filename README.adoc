@@ -104,12 +104,14 @@
 === Introduction to Domain-Driven Design (DDD)
 
 ==== Strategic DDD
+
 - Bounded Context
 - Context Mapping
 - Ubiquitous Language
 - Patterns of integrations
 
 ==== Tactical DDD
+
 - Patterns
 - Overview
 - Entity

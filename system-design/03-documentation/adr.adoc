@@ -1,0 +1,21 @@
+= ADR 001: Database Strategy
+:toc: auto
+:status: Accepted
+:date: 2025-07-06
+
+== Context
+
+We need to choose a database strategy for the user profile service.
+The system requires flexible schema, horizontal scalability, and fast iterations.
+
+== Decision
+
+We will use *MongoDB* for its schema flexibility and scaling features.
+Future read models can be optimized separately if needed.
+
+== Consequences
+
+* Fast initial development
+* Potential complexity in ACID transactions
+* We'll need to monitor data growth and indexing
+

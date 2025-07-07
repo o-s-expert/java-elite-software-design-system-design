@@ -14,22 +14,12 @@ This diagram represents the classical *Model-View-Controller (MVC)* architecture
 
 [source,plantuml]
 ----
-@startuml MVC
-skinparam style strictuml
+@startuml mvc-simple-component
 
-package "User Interface" {
-  [View]
-  [Controller]
-}
-
-package "Domain" {
-  [Model]
-}
-
-[View] --> [Controller] : user input
-[Controller] --> [Model] : update / query
-[Model] --> [Controller] : data change
-[Controller] --> [View] : update UI
+[View] --> [Controller] : user events
+[Controller] --> [Model] : updates/query
+[Model] --> [Controller] : result
+[Controller] --> [View] : response
 @enduml
 ----
 

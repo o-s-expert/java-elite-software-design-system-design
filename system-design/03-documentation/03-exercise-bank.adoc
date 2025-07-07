@@ -1,0 +1,35 @@
+= 🧪 Exercise: Design the C1 (System Context) of a Bank System 🏦
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+
+== 🎯 Goal
+
+Use the C4 Model to design the **C1: System Context** diagram for a modern banking system.
+
+== 📌 Requirements
+
+Design a system that includes the following external actors:
+
+* 👤 **Customer** – accesses the system through a mobile/web app.
+* 🧑‍💼 **Bank Employee** – uses an internal portal to assist customers.
+* 🏛️ **Central Bank System** – validates high-value transactions and regulatory compliance.
+* 💳 **Payment Processor** – handles credit/debit card transactions.
+
+== 📐 Instructions
+
+* Define the **banking system** as the central box.
+* Identify and label external systems or users.
+* Use arrows to show **interactions** and **data flow** between them.
+* Suggest tools like:
+** C4-PlantUML
+** Structurizr DSL
+** [Mermaid with Kroki](https://kroki.io)
+
+== 💬 Bonus Questions
+
+* Where would you enforce authentication and authorization?
+* Should customers and employees use the same interface?
+
+🧠 _This is a C1-level view, so focus on people and systems — not internal components yet!_

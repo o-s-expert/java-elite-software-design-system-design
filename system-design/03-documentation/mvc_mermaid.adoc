@@ -1,30 +1,36 @@
-= MVC Architecture Diagram
+= Minimal MVC Component Diagram with Mermaid 🧩
 Otávio Santana
 :toc: left
 :icons: font
-:plantuml-server-url: https://www.plantuml.com/plantuml
 :source-highlighter: highlightjs
 :sectnums:
+:kroki-server-url: https://kroki.io
+:diagram-server: kroki
 
-== Overview
+== 🗺️ Overview
 
-This diagram represents the classical *Model-View-Controller (MVC)* architecture using PlantUML.
+This is a simple 🧠 **Model-View-Controller (MVC)** architecture diagram rendered using **Mermaid** with **Kroki integration** in AsciiDoc.
 
-== Diagram
+== 📊 Diagram
 
 [source,mermaid]
-----
+....
+graph TD
+    V[👁️ View] --> C[🧭 Controller]
+    C --> M[🗃️ Model]
+    M --> C
+    C --> V
+....
 
-----
+== 🧩 Component Roles
 
-== Explanation
+- **👁️ View**: Presents data to the user and handles the UI 🎨.
+- **🧭 Controller**: Acts as a traffic cop 🚦, interpreting input and invoking business logic.
+- **🗃️ Model**: Contains the core data and logic 🧠.
 
-* `View`: Represents the UI layer that handles user interaction.
-* `Controller`: Acts as a mediator between View and Model.
-* `Model`: Holds the business logic and domain state.
+== 💡 Why use Mermaid in AsciiDoc?
 
-== Benefits
-
-- Diagrams as code – easy to version with Git 🌀
-- Reusable and composable documentation
-- Clear visualization of component responsibilities
+- 🔄 **Version-controlled** like code
+- 📘 Integrated into **docs-as-code** workflows
+- ⚡ Rendered via tools like **Kroki**, **GitLab**, or **Antora**
+- ✅ Easily editable and portable

@@ -8,7 +8,6 @@
 * Importance of understanding both for software engineers
 * Overview of the topics covered in this document
 
-
 == System Design
 
 === Basic Principles of System Design
@@ -17,7 +16,6 @@
 - System components: front-end, back-end, databases, caches
 - Scalability: vertical vs horizontal
 - Latency and throughput: how to optimize both
-
 
 === Documentations
 

@@ -1,17 +1,10 @@
-= Solution: Java Server Request Flow - Sequence Diagram
-:toc: left
-:icons: font
-:source-highlighter: highlightjs
-:sectnums:
-:kroki-server-url: https://kroki.io
-:diagram-server: kroki
+# Solution: Java Server Request Flow - Sequence Diagram
 
-== 🧵 Sequence Diagram
+## 🧵 Sequence Diagram
 
 This diagram shows how a `GET /books` request flows through a typical layered Java server using Spring.
 
-[source,mermaid]
-....
+```mermaid
 sequenceDiagram
     participant 🌐 Client
     participant 🚪 Controller
@@ -27,6 +20,6 @@ sequenceDiagram
     🗄️ Repository-->>⚙️ Service: List<Book>
     ⚙️ Service-->>🚪 Controller: List<Book>
     🚪 Controller-->>🌐 Client: JSON Response
-....
+```
 
 

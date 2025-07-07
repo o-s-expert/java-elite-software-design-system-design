@@ -1,0 +1,30 @@
+= MVC Architecture Diagram
+Otávio Santana
+:toc: left
+:icons: font
+:plantuml-server-url: https://www.plantuml.com/plantuml
+:source-highlighter: highlightjs
+:sectnums:
+
+== Overview
+
+This diagram represents the classical *Model-View-Controller (MVC)* architecture using PlantUML.
+
+== Diagram
+
+[source,mermaid]
+----
+
+----
+
+== Explanation
+
+* `View`: Represents the UI layer that handles user interaction.
+* `Controller`: Acts as a mediator between View and Model.
+* `Model`: Holds the business logic and domain state.
+
+== Benefits
+
+- Diagrams as code – easy to version with Git 🌀
+- Reusable and composable documentation
+- Clear visualization of component responsibilities

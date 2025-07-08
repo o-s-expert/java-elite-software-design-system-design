@@ -34,13 +34,11 @@
 - ETL (Extract, Transform, Load)
 - ELT (Extract, Load, Transform)
 - Data warehousing and data lakes
-
-=== Designing Scalable Systems
-
-- Data partitioning (sharding)
-- Load balancers
-- Use of caches (Redis, Memcached) for optimization
-- Distributed databases and replication
+- Designing Scalable Systems
+-- Data partitioning (sharding)
+-- Load balancers
+-- Use of caches (Redis, Memcached) for optimization
+-- Distributed databases and replication
 
 === Communication Between Components
 

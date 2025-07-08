@@ -45,12 +45,10 @@
 - Synchronous APIs (REST, gRPC)
 - Asynchronous communication with queues and message brokers (Kafka, RabbitMQ)
 - Robust interface design for integration
-
-=== High Availability and Fault Tolerance
-
-- Resilient projects with Circuit Breakers and retries
-- Replication and failover strategies
-- Tools for monitoring and automatic recovery (auto-healing)
+- High Availability and Fault Tolerance
+-- Resilient projects with Circuit Breakers and retries
+-- Replication and failover strategies
+-- Tools for monitoring and automatic recovery (auto-healing)
 
 === Practical Case Studies
 

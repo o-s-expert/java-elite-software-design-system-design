@@ -10,20 +10,16 @@ Otávio Santana
 [source, mermaid]
 ----
 sequenceDiagram
-    participant 👤 Client
-    participant 🌐 API Gateway
-    participant 📦 User Service
-    participant 🧠 Auth Service
-    participant 🗃️ Database
+    participant 🟦 App A
+    participant 🟧 App B
+    participant 🗄️ DB B
+    participant 🗃️ DB A
 
-    👤 Client->>🌐 API Gateway: REST Request (GET /users/123)
-    🌐 API Gateway->>🧠 Auth Service: gRPC ValidateToken(token)
-    🧠 Auth Service-->>🌐 API Gateway: OK
-    🌐 API Gateway->>📦 User Service: REST GET /users/123
-    📦 User Service->>🗃️ Database: SQL Query (user by ID)
-    🗃️ Database-->>📦 User Service: Result
-    📦 User Service-->>🌐 API Gateway: JSON user data
-    🌐 API Gateway-->>👤 Client: 200 OK + user JSON
+    🟦 App A->>🟧 App B: Request info (e.g., user ID)
+    🟧 App B->>🗄️ DB B: SELECT user info
+    🗄️ DB B-->>🟧 App B: user data
+    🟧 App B-->>🟦 App A: user data
+    🟦 App A->>🗃️ DB A: INSERT user data
 ----
 
 This diagram illustrates a typical hybrid architecture:

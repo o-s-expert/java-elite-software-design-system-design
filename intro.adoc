@@ -7,7 +7,7 @@ Otávio Santana
 
 == 📡 Example: Communication Flow Using REST and gRPC
 
-[mermaid,component-communication,format=svg]
+[source, mermaid]
 ----
 sequenceDiagram
     participant 👤 Client

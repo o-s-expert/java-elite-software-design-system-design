@@ -1,4 +1,4 @@
-= ETL Data Processing Strategies
+= ETL - Data Processing Strategies
 Otávio Santana
 :toc: left
 :icons: font
@@ -11,9 +11,14 @@ The traditional approach to data movement and transformation.
 
 [source, mermaid]
 ----
-flowchart TD
-    A1[📤 Extract\nSource Systems] --> A2[🔧 Transform\nData Cleaning, Joins, Filters]
-    A2 --> A3[📥 Load\nData Warehouse]
+sequenceDiagram
+    participant 📤 Source System
+    participant 🔧 ETL Engine
+    participant 📥 Data Warehouse
+
+    📤 Source System->>🔧 ETL Engine: Extract raw data
+    🔧 ETL Engine->>🔧 ETL Engine: Transform (clean, join, filter)
+    🔧 ETL Engine->>📥 Data Warehouse: Load structured data
 ----
 
 * Extracts data from source systems.

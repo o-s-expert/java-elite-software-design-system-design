@@ -1,0 +1,25 @@
+= ELT - Data Processing Strategies
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+
+
+== 🚀 ELT – Extract, Load, Transform
+
+A modern approach where transformation happens *after* loading raw data.
+
+[souurce, mermaid]
+----
+sequenceDiagram
+    participant 📤 Source System
+    participant 📥 Data Lake / Warehouse
+    participant 🔧 Transformation Engine
+
+    📤 Source System->>📥 Data Lake / Warehouse: Extract & Load raw data
+    🔧 Transformation Engine->>📥 Data Lake / Warehouse: Transform in-place (SQL, Spark, etc.)
+----
+
+✅ **Best for**: Cloud-native, scalable, exploratory analytics and schema-flexible workloads.

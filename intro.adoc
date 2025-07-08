@@ -28,3 +28,21 @@ This diagram illustrates a typical hybrid architecture:
 * gRPC for internal service-to-service calls (Auth)
 * Direct DB access by internal services
 
+[source, mermaid]
+----
+architecture-beta
+    group api(cloud)[API]
+
+    service db(database)[Database A] in api
+    service db2(database)[Database B] in api
+    service disk1(disk)[Storage A] in api
+    service disk2(disk)[Storage B] in api
+    service server(server)[Server] in api
+    service server2(server)[Server] in api
+
+    db:L -- R:server
+    disk1:T -- B:db
+    db2:L -- R:server2
+    disk2:T -- B:db2
+    server:L -- R:server2
+----

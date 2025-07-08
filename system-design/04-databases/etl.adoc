@@ -1,0 +1,23 @@
+= ETL Data Processing Strategies
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+== ETL – Extract, Transform, Load
+
+The traditional approach to data movement and transformation.
+
+[source, mermaid]
+----
+flowchart TD
+    A1[📤 Extract\nSource Systems] --> A2[🔧 Transform\nData Cleaning, Joins, Filters]
+    A2 --> A3[📥 Load\nData Warehouse]
+----
+
+* Extracts data from source systems.
+* Transforms it outside the target (e.g., in a staging area).
+* Loads clean, structured data into the warehouse.
+
+✅ Best for controlled, structured pipelines.

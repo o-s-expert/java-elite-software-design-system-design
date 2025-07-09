@@ -5,6 +5,40 @@ Otávio Santana
 :sectnums:
 :kroki-server-url: https://kroki.io
 
+
+==  C4Context – REST Payment Integration
+
+[source, mermaid]
+----
+
+----
+
+==  C4Container – REST Payment Integration
+
+[source, mermaid]
+----
+C4Context
+title System Context – gRPC Stock Check
+
+Enterprise_Boundary(company, "Company System") {
+    Person(customer, "🧑 Customer", "Places orders via Web/Mobile App")
+
+    System(backend, "🟦 Java Backend", "Handles order placement and inventory requests")
+
+    System_Boundary(internal, "Internal Services") {
+        System(stock_service, "📦 Stock Service", "Checks item availability and updates stock")
+        SystemDb(stock_db, "🗃️ Inventory DB", "Stores product stock levels")
+    }
+}
+
+Rel(customer, backend, "Places order", "HTTPS")
+Rel(backend, stock_service, "gRPC checkAvailability", "gRPC/protobuf")
+Rel(stock_service, stock_db, "Reads/Writes stock data", "JDBC/SQL")
+
+UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
+
+----
+
 == Sequence Diagram: Inventory Check via gRPC
 
 [source, mermaid]

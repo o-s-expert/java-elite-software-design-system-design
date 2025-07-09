@@ -1,0 +1,59 @@
+= 🔄 Asynchronous Communication in Payment Integration
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+== 🔁 Sequence Diagram: Payment Webhook with Message Queue
+
+[mermaid,payment-async-sequence,format=svg]
+----
+sequenceDiagram
+    participant 💳 Payment Provider
+    participant 🌐 Webhook Service
+    participant 🗃️ Raw DB
+    participant 📤 Message Queue
+    participant 🧠 Payment System
+
+    💳 Payment Provider->>🌐 Webhook Service: POST /payment/webhook (REST)
+    🌐 Webhook Service->>🗃️ Raw DB: Save webhook payload
+    🌐 Webhook Service->>📤 Message Queue: Publish "payment.received" event
+    📤 Message Queue-->>🧠 Payment System: Consume payment.received
+    🧠 Payment System->>🧠 Payment System: Process business logic
+----
+
+== 🧱 Component Diagram: Decoupled Payment Flow
+
+[mermaid,payment-async-components,format=svg]
+----
+flowchart TD
+    Provider["💳 Payment Provider"]:::ext
+    Webhook["🌐 Webhook Service"]
+    RawDB[["🗃️ Raw Webhook DB"]]
+    Queue["📤 Message Queue\n(Kafka, RabbitMQ, etc.)"]
+    Payment["🧠 Payment System"]
+
+    Provider --> Webhook : Webhook POST
+    Webhook --> RawDB : Store event
+    Webhook --> Queue : Emit message
+    Queue --> Payment : Async message
+    Payment --> Payment : Process payment
+
+    classDef ext fill=#fdf6e3,stroke=#333,stroke-width=2,stroke-dasharray: 5 5
+----
+
+== 🎯 Why This Architecture?
+
+* 🌐 The **Webhook Service** is responsible for **receiving external requests** and storing raw data safely.
+* 🧳 A **message is published** so the internal **Payment System** can process asynchronously.
+* 🧵 This decouples external events from internal systems, enabling:
+- Retry logic
+- Auditing of raw data
+- Parallel or delayed processing
+
+== 💡 Notes
+
+* The Raw DB can be a PostgreSQL or NoSQL store.
+* The message format may follow a schema (e.g., Avro, JSON Schema).
+* Use dead-letter queues or retry strategies for resilience.

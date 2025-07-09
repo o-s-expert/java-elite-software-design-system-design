@@ -62,3 +62,29 @@ Rel(stock_service, stock_db, "Reads/Writes", "SQL")
 
 UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
 ----
+
+
+== Sequence Diagram: Inventory Check via gRPC
+
+[source, mermaid]
+----
+sequenceDiagram
+    participant 🧑 Client
+    participant 🟦 Java Backend
+    participant 💳 Payment Provider
+    participant 📦 Stock Service
+    participant 🗃️ Inventory DB
+
+    🧑 Client->>🟦 Java Backend: POST /checkout (REST)
+    🟦 Java Backend->>📦 Stock Service: gRPC checkAvailability(productId)
+    📦 Stock Service->>🗃️ Inventory DB: SELECT stock
+    🗃️ Inventory DB-->>📦 Stock Service: Stock data
+    📦 Stock Service-->>🟦 Java Backend: Stock OK
+
+    🟦 Java Backend->>💳 Payment Provider: POST /payments (REST)
+    💳 Payment Provider-->>🟦 Java Backend: Payment Response
+    note over 💳 Payment Provider,🟦 Java Backend: Later... webhook event
+    💳 Payment Provider-->>🟦 Java Backend: POST /webhook/payment
+
+    🟦 Java Backend-->>🧑 Client: Order accepted
+----

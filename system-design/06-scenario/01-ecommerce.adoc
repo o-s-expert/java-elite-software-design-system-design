@@ -1,0 +1,230 @@
+= Multi-Channel Product Updates Architecture
+:toc: macro
+:toclevels: 2
+:sectnums:
+:icons: font
+:source-highlighter: rouge
+
+This document outlines a system architecture for managing multi-channel product updates. It ingests vendor data, adjusts pricing with a repricer, and sends updates to marketplaces like Amazon and eBay.
+
+== System Architecture
+
+=== C1 Context Diagram
+
+[source, mermaid]
+----
+C4Context
+title 🛒 Multi-Channel Product Update System – Context Diagram
+
+Person(vendor, "🧑 Vendor", "Sends product updates via API, FTP, or email")
+Person(internalOps, "👩‍💼 Internal Operator", "Monitors and configures pricing rules")
+System(system, "🛍️ Product Update System", "Processes and dispatches product updates to marketplaces")
+System_Ext(marketplace, "🏬 Marketplace Platform", "Receives updates from the internal system")
+
+Rel(vendor, system, "📤 Sends product & inventory updates")
+Rel(internalOps, system, "⚙️ Manages pricing and monitors system")
+Rel(system, marketplace, "📦 Pushes inventory and pricing updates")
+----
+
+=== C2 Container Diagram
+
+[source, mermaid]
+----
+C4Container
+title 🧩 Product Update System – Container Diagram
+
+Person(vendor, "🧑 Vendor")
+
+System_Boundary(productUpdateSystem, "🛍️ Product Update System") {
+  Container(ingestion, "🔌 Ingestion Service", "Apache Camel / Spring Integration", "Handles API, FTP, and email inputs")
+  Container(queue, "📨 Queueing System", "Kafka / RabbitMQ", "Decouples ingestion from processing")
+  Container(preprocessor, "🧹 Preprocessing Service", "Spring Boot / Quarkus", "Cleans and normalizes data")
+  Container(repricer, "🧮 Repricer Engine", "Drools / Custom Logic", "Applies pricing rules based on cost and business strategy")
+  Container(dispatcher, "📤 Marketplace Dispatcher", "Micronaut / Spring WebClient", "Sends updates to marketplaces like Amazon, eBay")
+  Container(cache, "⚡ Price Cache", "Redis", "Stores temporary price decisions")
+  Container(storage, "💾 Persistent Storage", "PostgreSQL / MinIO", "Stores raw and processed update data")
+  Container(monitoring, "📊 Monitoring & Alerting", "Prometheus + Grafana", "Tracks health metrics and errors")
+  Container(errorHandler, "❌ Error Handler", "Standalone Service", "Handles retries, dead-letter queues, and logging")
+}
+
+System_Ext(marketplace, "🏬 Marketplace Platform", "Amazon, eBay, etc.")
+
+Rel(vendor, ingestion, "📤 Sends product updates")
+Rel(ingestion, queue, "📨 Publishes messages")
+Rel(queue, preprocessor, "🔁 Sends message for cleaning")
+Rel(preprocessor, repricer, "📊 Sends normalized data")
+Rel(repricer, cache, "⚡ Caches price data")
+Rel(repricer, dispatcher, "📤 Sends repriced updates")
+Rel(dispatcher, marketplace, "🚚 Pushes updates")
+Rel(dispatcher, storage, "📝 Logs update results")
+Rel(preprocessor, storage, "🗃️ Stores raw input")
+Rel(dispatcher, errorHandler, "❌ Reports failures")
+Rel(errorHandler, queue, "🔁 Requeues for retry")
+Rel(errorHandler, monitoring, "📢 Triggers alerts")
+----
+
+=== System Integration Flow
+
+[source, mermaid]
+----
+graph TD
+  subgraph Vendors
+    A1[🔌 API Input] --> I[🛠️ Ingestion Layer]
+    A2[📂 FTP Listener] --> I
+    A3[📧 Email Parser CSV] --> I
+  end
+
+  I --> Q[📨 Kafka / RabbitMQ Queue]
+
+  Q --> P[🧹 Preprocessing Service]
+  P --> S1[(💾 Raw Data Storage - MinIO)]
+  P --> V[🧪 Validation & Normalization]
+  V --> R[🧮 Repricer Service]
+  R --> S2[(⚡ Price Cache - Redis)]
+  R --> D[(📦 Final Update Queue)]
+
+  D --> M1[🛒 Amazon Sync Service]
+  D --> M2[🛍️ eBay Sync Service]
+  D --> M3[🏬 Other Channels]
+
+  M1 --> O1[(🔁 API Response)]
+  M2 --> O2
+  M3 --> O3
+
+  subgraph Monitoring & Reliability
+    E1[❌ Error Queue]
+    E2[🔁 DLQ / Retry Logic]
+    E3[📊 Alerting Prometheus + Grafana]
+  end
+
+  M1 -->|❗ Failure| E1
+  M2 -->|❗ Failure| E1
+  E1 --> E2
+  E2 --> Q
+  E2 --> E3
+----
+
+
+== Data Flow Breakdown
+
+[source, mermaid]
+----
+graph LR
+  subgraph Ingestion
+    A1[🔌 API Input]
+    A2[📂 FTP Listener]
+    A3[📧 Email Parser CSV]
+    A1 --> I[🛠️ Ingestion Service]
+    A2 --> I
+    A3 --> I
+  end
+
+  I --> Q[📨 Kafka / RabbitMQ Queue]
+
+  subgraph Processing
+    Q --> P[🧹 Preprocessor]
+    P --> N[🧪 Normalization]
+    N --> S1[(💾 Raw Data Backup - MinIO)]
+  end
+
+  N --> R[🧮 Repricer Engine]
+  R --> C[⚡ Redis Price Cache]
+
+  subgraph Dispatch
+    R --> UQ[📦 Final Update Queue]
+    UQ --> D1[🛒 Amazon Worker]
+    UQ --> D2[🛍️ eBay Worker]
+    UQ --> D3[🏬 Other Marketplace Worker]
+  end
+
+  D1 --> A1Resp[(🔁 Amazon API Resp)]
+  D2 --> A2Resp[(🔁 eBay API Resp)]
+  D3 --> A3Resp[(🔁 Other Resp)]
+
+  subgraph Failure Handling
+    D1 -->|❗ Fail| E1[❌ Error Queue]
+    D2 -->|❗ Fail| E1
+    D3 -->|❗ Fail| E1
+    E1 --> E2[🔁 DLQ & Retry Service]
+    E2 --> Q
+  end
+
+  subgraph Monitoring & Observability
+    I --> M[📊 Metrics Prometheus]
+    P --> M
+    R --> M
+    D1 --> M
+    E1 --> M
+    E2 --> M
+  end
+----
+
+=== 1. Vendor Ingestion Layer
+
+- **API**: REST endpoints for structured input
+- **FTP Listener**: Scheduled job polling vendor files
+- **Email Parser**: Extracts CSV from email attachments
+- Normalized into a unified schema and sent to Kafka or RabbitMQ for decoupling and backpressure.
+
+=== 2. Processing & Repricing
+
+- **Preprocessing**: Cleans and validates incoming payloads.
+- **Raw Storage**: S3-compatible store (e.g., MinIO) for auditing and reprocessing.
+- **Repricer**: Applies pricing strategies using input cost, competition, and business rules.
+- **Cache**: Redis for fast access to recent pricing decisions.
+
+=== 3. Update Dispatch
+
+- **Dispatch Queue**: Stores final update payloads.
+- **Channel Workers**: One per marketplace (Amazon, eBay, etc.), using async non-blocking HTTP clients like `WebClient` or `Apache HttpAsyncClient`.
+- **Rate Limiting**: Use of a `resilience4j`-based circuit breaker or retry policy.
+
+=== 4. Error Handling & Observability
+
+- **Error Queue**: Captures failures to isolate processing.
+- **DLQ / Retry Logic**: Attempts reprocessing with exponential backoff.
+- **Prometheus + Grafana**: Metric scraping and dashboards.
+- **Structured Logs**: Output JSON logs via OpenTelemetry or Logstash-compatible format.
+
+== ☁️ Scalability Considerations
+
+- Kafka/RabbitMQ enable **horizontal scaling** of workers.
+- Stateless microservices (e.g., using Spring Boot or Quarkus) can be **scaled independently**.
+- Redis + S3 provide separation between fast lookup and deep storage.
+
+== 🔧 Technology Stack (Open Source)
+
+- **Ingestion**: Apache Camel / Spring Integration
+- **Queueing**: Apache Kafka or RabbitMQ
+- **Processing**: Quarkus / Micronaut / Spring Boot
+- **Storage**: PostgreSQL for metadata, MinIO for object store
+- **Repricing**: Business Rule Engine (Drools or custom)
+- **Cache**: Redis
+- **Observability**: Prometheus, Grafana, Loki
+- **Orchestration**: Kubernetes (K8s)
+- **Retry / Circuit Breaker**: Resilience4j
+
+== 🛠 Design Choices
+
+- *Event-driven architecture*: Enables decoupling and asynchronous processing.
+- *Polyglot persistence*: Combines cache, object store, and relational DBs for performance and flexibility.
+- *Replayability*: Kafka topics and raw data storage allow easy replay on failure.
+- *Cloud-native ready*: Designed for containerized environments with horizontal scalability.
+
+== ⚖️ Trade-offs and Design Decisions
+
+- **Open-source vs. managed services**:
+Chose open-source tools (Kafka, Redis, MinIO) for neutrality and control.
+→ Trade-off: full responsibility for scaling and ops.
+
+- **State in cache/queue vs. database**:
+Handled transient state (e.g., repricing, retries) via Redis and Kafka for throughput and decoupling.
+→ Trade-off: more distributed coordination, eventual consistency.
+
+- **Rule-based vs. static repricing**:
+Enabled Drools and custom logic for flexible pricing strategies.
+→ Trade-off: higher complexity and need for business rule governance.
+
+- **Internal scalability vs. API constraints**:
+System scales horizontally, but marketplaces impose rate limits.
+→ Trade-off: real-world throughput is gated by external dependencies.

@@ -34,6 +34,35 @@ C4Context
     UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
 ----
 
+==  C4Container – REST Payment Integration
+
+[source, mermaid]
+----
+C4Container
+title Container Diagram – REST Payment Integration
+
+Person(customer, "🧑 Customer", "End user placing orders via web or mobile")
+
+System_Ext(payment_provider, "💳 Payment Provider", "External system for processing payments (e.g., Stripe)")
+
+Container_Boundary(app, "Company Backend System") {
+    Container(client_app, "Client App", "React / Web", "Allows customers to place orders and initiate payments")
+    Container(backend, "Java Backend", "Java + Spring Boot", "Handles checkout and payment logic")
+    Container(order_service, "Order Service", "Spring Boot", "Manages order state and processing")
+    ContainerDb(database, "Order Database", "PostgreSQL", "Stores order and payment info")
+}
+
+Rel(customer, client_app, "Uses", "HTTPS")
+Rel(client_app, backend, "Sends order/payment", "HTTPS/REST")
+Rel(backend, payment_provider, "Sends payment request", "HTTPS/REST")
+Rel_Back(payment_provider, backend, "Sends webhook confirmation", "HTTPS")
+
+Rel(backend, order_service, "Marks order as paid", "HTTP/JSON")
+Rel(order_service, database, "Reads/Writes", "JDBC/SQL")
+
+UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+----
+
 == Sequence Diagram: REST-Based Payment (with Eventual HTTP Request)
 
 [source, mermaid]

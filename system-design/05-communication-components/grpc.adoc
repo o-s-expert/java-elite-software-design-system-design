@@ -1,70 +1,50 @@
-= ⚙️ gRPC Service-to-Service Communication
+= Internal Integration – Java Backend ↔ Stock Service
 Otávio Santana
 :toc: left
 :icons: font
 :sectnums:
 :kroki-server-url: https://kroki.io
 
-== Sequence Diagram: gRPC Internal Request Flow
+== Sequence Diagram: Inventory Check via gRPC
 
 [source, mermaid]
 ----
 sequenceDiagram
     participant 🧑 Client
-    participant 🟦 Gateway
-    participant 📦 UserService
-    participant 🧠 AuthService
-    participant 🗃️ Database
+    participant 🟦 Java Backend
+    participant 📦 Stock Service
+    participant 🗃️ Inventory DB
 
-    🧑 Client->>🟦 Gateway: Request user info
-    🟦 Gateway->>🧠 AuthService: gRPC Validate(token)
-    🧠 AuthService-->>🟦 Gateway: Token OK
-    🟦 Gateway->>📦 UserService: gRPC GetUser(id)
-    📦 UserService->>🗃️ Database: SELECT user by ID
-    🗃️ Database-->>📦 UserService: User data
-    📦 UserService-->>🟦 Gateway: User data
-    🟦 Gateway-->>🧑 Client: JSON response
+    🧑 Client->>🟦 Java Backend: Place Order (productId)
+    🟦 Java Backend->>📦 Stock Service: gRPC checkAvailability(productId)
+    📦 Stock Service->>🗃️ Inventory DB: SELECT quantity
+    🗃️ Inventory DB-->>📦 Stock Service: Available/Not Available
+    📦 Stock Service-->>🟦 Java Backend: Availability status
+    🟦 Java Backend-->>🧑 Client: Order accepted or rejected
 ----
 
-🧭 gRPC is used **internally** (Auth ↔ UserService), allowing:
-- Strongly typed contracts
-- Low latency
-- Language-agnostic communication
-
-JSON is still used at the edge to talk to external clients.
-
-== Component Diagram: gRPC Inside a Java System
+== Component Diagram: Internal gRPC Call
 
 [source, mermaid]
 ----
 flowchart TD
-    Client["🧑 Client\n(Web or Mobile App)"]:::sub
-    Gateway["🟦 API Gateway\n(RestController)"]
-    Auth["🧠 Auth Service\n(gRPC Java Server)"]
-    User["📦 User Service\n(gRPC Java Server)"]
-    DB[["🗃️ PostgreSQL"]]
+    Client["🧑 Client\n(Web/Mobile App)"]:::sub
+    Backend["🟦 Java Backend"]
+    Stock["📦 Stock Service (gRPC)"]
+    DB[["🗃️ Inventory Database"]]
 
-    Client --> Gateway
-    Gateway --> Auth : gRPC ValidateToken
-    Gateway --> User : gRPC GetUser
-    User --> DB
+    Client --> Backend
+    Backend --> Stock : gRPC checkAvailability
+    Stock --> DB
 
     classDef sub shape=subroutine
 ----
 
-== 🛠️ Java + gRPC Development Notes
+== 🛠️ Notes
 
-* Use `protobuf` to define `.proto` interfaces:
-[source,proto]
-----
-service AuthService {
-  rpc ValidateToken (TokenRequest) returns (TokenResponse);
-}
-----
-* Java implementation via `grpc-java` plugin:
-- Server: extend generated base class
-- Client: use generated stubs
-* Supports:
-- Unary, Server/Client streaming, Bi-directional streaming
-* Integration with Spring Boot via `grpc-spring-boot-starter`
+* This use case is ideal for gRPC:
+- Internal microservices
+- Known contract (`.proto`)
+- Low-latency checks
+* Service-to-service security can be added with mTLS or service mesh
 

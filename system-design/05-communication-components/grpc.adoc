@@ -1,0 +1,70 @@
+= ⚙️ gRPC Service-to-Service Communication
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+== 🔄 Sequence Diagram: gRPC Internal Request Flow
+
+[mermaid,grpc-sequence,format=svg]
+----
+sequenceDiagram
+    participant 🧑 Client
+    participant 🟦 Gateway
+    participant 📦 UserService
+    participant 🧠 AuthService
+    participant 🗃️ Database
+
+    🧑 Client->>🟦 Gateway: Request user info
+    🟦 Gateway->>🧠 AuthService: gRPC Validate(token)
+    🧠 AuthService-->>🟦 Gateway: Token OK
+    🟦 Gateway->>📦 UserService: gRPC GetUser(id)
+    📦 UserService->>🗃️ Database: SELECT user by ID
+    🗃️ Database-->>📦 UserService: User data
+    📦 UserService-->>🟦 Gateway: User data
+    🟦 Gateway-->>🧑 Client: JSON response
+----
+
+🧭 gRPC is used **internally** (Auth ↔ UserService), allowing:
+- Strongly typed contracts
+- Low latency
+- Language-agnostic communication
+
+JSON is still used at the edge to talk to external clients.
+
+== 🧱 Component Diagram: gRPC Inside a Java System
+
+[mermaid,grpc-components,format=svg]
+----
+flowchart TD
+    Client["🧑 Client\n(Web or Mobile App)"]:::sub
+    Gateway["🟦 API Gateway\n(RestController)"]
+    Auth["🧠 Auth Service\n(gRPC Java Server)"]
+    User["📦 User Service\n(gRPC Java Server)"]
+    DB[["🗃️ PostgreSQL"]]
+
+    Client --> Gateway
+    Gateway --> Auth : gRPC ValidateToken
+    Gateway --> User : gRPC GetUser
+    User --> DB
+
+    classDef sub shape=subroutine
+----
+
+== 🛠️ Java + gRPC Development Notes
+
+* Use `protobuf` to define `.proto` interfaces:
+[source,proto]
+----
+service AuthService {
+  rpc ValidateToken (TokenRequest) returns (TokenResponse);
+}
+----
+* Java implementation via `grpc-java` plugin:
+- Server: extend generated base class
+- Client: use generated stubs
+* Supports:
+- Unary, Server/Client streaming, Bi-directional streaming
+* Integration with Spring Boot via `grpc-spring-boot-starter`
+

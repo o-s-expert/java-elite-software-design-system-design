@@ -10,13 +10,6 @@ Otávio Santana
 
 [source, mermaid]
 ----
-
-----
-
-==  C4Container – REST Payment Integration
-
-[source, mermaid]
-----
 C4Context
 title System Context – gRPC Stock Check
 
@@ -36,7 +29,30 @@ Rel(backend, stock_service, "gRPC checkAvailability", "gRPC/protobuf")
 Rel(stock_service, stock_db, "Reads/Writes stock data", "JDBC/SQL")
 
 UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
+----
 
+==  C4Container – REST Payment Integration
+
+[source, mermaid]
+----
+C4Container
+title Container Diagram – Java Backend ↔ Stock Service (gRPC)
+
+Person(customer, "🧑 Customer", "End user placing orders via web or mobile")
+
+Container_Boundary(app, "Company Backend System") {
+    Container(client_app, "Client App", "React / Web", "Interface for placing orders")
+    Container(backend, "Java Backend", "Java + Spring Boot", "Handles business logic and gRPC calls")
+    Container(stock_service, "Stock Service", "Java + gRPC", "Processes stock availability checks and updates")
+    ContainerDb(inventory_db, "Inventory DB", "PostgreSQL", "Stores product stock levels")
+}
+
+Rel(customer, client_app, "Uses", "HTTPS")
+Rel(client_app, backend, "Places order", "HTTPS/JSON")
+Rel(backend, stock_service, "checkAvailability()", "gRPC")
+Rel(stock_service, inventory_db, "Reads/Writes", "JDBC/SQL")
+
+UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
 ----
 
 == Sequence Diagram: Inventory Check via gRPC

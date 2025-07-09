@@ -5,9 +5,9 @@ Otávio Santana
 :sectnums:
 :kroki-server-url: https://kroki.io
 
-== 🔄 Sequence Diagram: gRPC Internal Request Flow
+== Sequence Diagram: gRPC Internal Request Flow
 
-[mermaid,grpc-sequence,format=svg]
+[source, mermaid]
 ----
 sequenceDiagram
     participant 🧑 Client
@@ -33,9 +33,9 @@ sequenceDiagram
 
 JSON is still used at the edge to talk to external clients.
 
-== 🧱 Component Diagram: gRPC Inside a Java System
+== Component Diagram: gRPC Inside a Java System
 
-[mermaid,grpc-components,format=svg]
+[source, mermaid]
 ----
 flowchart TD
     Client["🧑 Client\n(Web or Mobile App)"]:::sub

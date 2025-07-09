@@ -5,9 +5,9 @@ Otávio Santana
 :sectnums:
 :kroki-server-url: https://kroki.io
 
-== 🔁 Sequence Diagram: Payment Webhook with Message Queue
+== Sequence Diagram: Payment Webhook with Message Queue
 
-[mermaid,payment-async-sequence,format=svg]
+[source, mermaid]
 ----
 sequenceDiagram
     participant 💳 Payment Provider
@@ -23,9 +23,9 @@ sequenceDiagram
     🧠 Payment System->>🧠 Payment System: Process business logic
 ----
 
-== 🧱 Component Diagram: Decoupled Payment Flow
+== Component Diagram: Decoupled Payment Flow
 
-[mermaid,payment-async-components,format=svg]
+[source, mermaid]
 ----
 flowchart TD
     Provider["💳 Payment Provider"]:::ext
@@ -43,7 +43,7 @@ flowchart TD
     classDef ext fill=#fdf6e3,stroke=#333,stroke-width=2,stroke-dasharray: 5 5
 ----
 
-== 🎯 Why This Architecture?
+== Why This Architecture?
 
 * 🌐 The **Webhook Service** is responsible for **receiving external requests** and storing raw data safely.
 * 🧳 A **message is published** so the internal **Payment System** can process asynchronously.

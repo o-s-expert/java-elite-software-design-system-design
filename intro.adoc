@@ -15,7 +15,7 @@ sequenceDiagram
     participant 🗄️ DB B
     participant 🗃️ DB A
 
-    🟦 App A->>🟧 App B: Request info (e.g., user ID)
+    🟦 App A->>🟧 App B: Communicate with third-party service
     🟧 App B->>🗄️ DB B: SELECT user info
     🗄️ DB B-->>🟧 App B: user data
     🟧 App B-->>🟦 App A: user data
@@ -31,14 +31,15 @@ This diagram illustrates a typical hybrid architecture:
 [source, mermaid]
 ----
 architecture-beta
-    group api(cloud)[API]
+    group api(cloud)[Company]
+    group api2(cloud)[Third Party]
 
     service db(database)[Database A] in api
-    service db2(database)[Database B] in api
+    service db2(database)[Database B] in api2
     service disk1(disk)[Storage A] in api
-    service disk2(disk)[Storage B] in api
+    service disk2(disk)[Storage B] in api2
     service server(server)[Server] in api
-    service server2(server)[Server] in api
+    service server2(server)[Server] in api2
 
     db:L -- R:server
     disk1:T -- B:db

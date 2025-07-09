@@ -1,0 +1,64 @@
+= 💳 REST Payment Integration – Practical Example
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+== 🔄 Sequence Diagram: REST-Based Payment (with Eventual HTTP Request)
+
+[source, mermaid]
+----
+sequenceDiagram
+    participant 🧑 Client
+    participant 🟦 Backend System
+    participant 💳 Payment Provider
+    participant 📦 Order Service
+    participant 🗃️ Database
+
+    🧑 Client->>🟦 Backend System: Checkout Request
+    🟦 Backend System->>💳 Payment Provider: POST /payments
+    💳 Payment Provider-->>🟦 Backend System: Payment Confirmation (Immediate)
+    🟦 Backend System->>📦 Order Service: Mark order as paid
+    📦 Order Service->>🗃️ Database: Update order status
+    note over 💳 Payment Provider,🟦 Backend System: Later...\nEventual HTTP webhook with status
+    💳 Payment Provider-->>🟦 Backend System: POST /payment/webhook
+----
+
+🧭 *Important*:
+This is not truly asynchronous — the webhook is an **eventual HTTP call** made later by the provider.
+It's handled in Java using `@PostMapping` + `@RequestBody` in a Spring `@RestController`.
+
+
+[source, mermaid]
+----
+flowchart TD
+    Client((("🧑 Client\n(Web/Mobile App)"))):::sub
+    Backend["🟦 Backend System\nSpring Boot"]
+    Payment{{"💳 Payment Provider(e.g., Stripe API)"}}
+    Order["📦 Order Service"]
+    DB[("🗃️ PostgreSQL Database")]
+
+
+    Client --> Backend
+    Backend --> Payment
+    Backend --> Order
+    Order --> DB
+    Payment --> Backend
+
+----
+
+== 🛠️ Java Stack Notes
+
+* REST client: `WebClient` or `RestTemplate`
+* Webhook receiver:
+[source,java]
+----
+@PostMapping("/payment/webhook")
+public ResponseEntity<Void> handle(@RequestBody PaymentStatus payload) {
+    // process status
+    return ResponseEntity.ok().build();
+}
+----
+* JSON handled via Jackson (`@JsonProperty`, etc.)
+* Optional: `Resilience4j` for retries, timeouts, and circuit breakers

@@ -1,0 +1,22 @@
+= Circuit Breaker
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+
+
+
+[source, mermaid]
+----
+flowchart TD
+    A[🟢 Closed<br/>All calls pass through normally] -->|Failure threshold reached| B[🔴 Open<br/>All calls are blocked]
+    B -->|Wait time expired| C[🟡 Half-Open<br/>Allow limited test requests]
+    C -->|Success| A
+    C -->|Failure| B
+
+    style A fill:#d1f7c4,stroke:#333,stroke-width:2
+    style B fill:#f7c4c4,stroke:#333,stroke-width:2
+    style C fill:#fff3c4,stroke:#333,stroke-width:2
+----

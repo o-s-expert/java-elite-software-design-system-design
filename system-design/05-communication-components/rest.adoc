@@ -34,7 +34,7 @@ It's handled in Java using `@PostMapping` + `@RequestBody` in a Spring `@RestCon
 ----
 flowchart TD
     Client((("🧑 Client\n(Web/Mobile App)"))):::sub
-    Backend["🟦 Backend System\nSpring Boot"]
+    Backend["🟦 Backend System"]
     Payment{{"💳 Payment Provider(e.g., Stripe API)"}}
     Order["📦 Order Service"]
     DB[("🗃️ PostgreSQL Database")]
@@ -45,7 +45,6 @@ flowchart TD
     Backend --> Order
     Order --> DB
     Payment --> Backend
-
 ----
 
 == 🛠️ Java Stack Notes

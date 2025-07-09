@@ -30,17 +30,14 @@ sequenceDiagram
 flowchart TD
     Provider["💳 Payment Provider"]:::ext
     Webhook["🌐 Webhook Service"]
-    RawDB[["🗃️ Raw Webhook DB"]]
-    Queue["📤 Message Queue\n(Kafka, RabbitMQ, etc.)"]
+    RawDB[("🗃️ Raw Webhook DB")]
+    Queue["📤 Message Queue (Kafka, RabbitMQ, etc.)"]
     Payment["🧠 Payment System"]
 
-    Provider --> Webhook : Webhook POST
-    Webhook --> RawDB : Store event
-    Webhook --> Queue : Emit message
-    Queue --> Payment : Async message
-    Payment --> Payment : Process payment
-
-    classDef ext fill=#fdf6e3,stroke=#333,stroke-width=2,stroke-dasharray: 5 5
+    Provider --> Webhook
+    Webhook --> RawDB
+    Webhook --> Queue
+    Queue --> Payment
 ----
 
 == Why This Architecture?

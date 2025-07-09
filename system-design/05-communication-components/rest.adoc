@@ -5,7 +5,36 @@ Otávio Santana
 :sectnums:
 :kroki-server-url: https://kroki.io
 
-== 🔄 Sequence Diagram: REST-Based Payment (with Eventual HTTP Request)
+==  C4Context – REST Payment Integration
+
+[source, mermaid]
+----
+C4Context
+    title System Context – REST Payment Integration
+
+    Enterprise_Boundary(company, "Company System") {
+        Person(customer, "🧑 Customer", "Uses the system to place orders and make payments")
+
+        System(system, "🟦 Backend System", "Processes orders and initiates payment requests")
+
+        System_Boundary(internal, "Internal Subsystems") {
+            System(orderService, "📦 Order Service", "Handles order creation and state transitions")
+            SystemDb(orderDb, "🗃️ Order Database", "Stores order and payment info")
+        }
+    }
+
+    System_Ext(paymentProvider, "💳 Payment Provider", "Processes payments via external REST API")
+
+    Rel(customer, system, "Places order and triggers checkout")
+    Rel(system, orderService, "Sends order and payment status")
+    Rel(orderService, orderDb, "Reads/Writes order info")
+    Rel(system, paymentProvider, "Sends payment request", "HTTPS/REST")
+    Rel(paymentProvider, system, "Sends payment confirmation (webhook)", "HTTPS")
+
+    UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
+----
+
+== Sequence Diagram: REST-Based Payment (with Eventual HTTP Request)
 
 [source, mermaid]
 ----

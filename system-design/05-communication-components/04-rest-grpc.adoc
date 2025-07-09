@@ -1,0 +1,19 @@
+= REST and gRPC Work Together
+Otávio Santana
+:toc: left
+:icons: font
+:sectnums:
+:kroki-server-url: https://kroki.io
+
+
+==  C4Context – REST Payment Integration
+
+[source, mermaid]
+----
+----
+
+==  C4Container – REST Payment Integration
+
+[source, mermaid]
+----
+----

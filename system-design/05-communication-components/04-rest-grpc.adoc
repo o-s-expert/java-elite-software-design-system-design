@@ -10,10 +10,55 @@ Otávio Santana
 
 [source, mermaid]
 ----
+C4Context
+title System Context – Hybrid REST + gRPC Integration
+
+Enterprise_Boundary(company, "Company System") {
+    Person(customer, "🧑 Customer", "Places orders via web or mobile")
+
+    System(backend, "🟦 Java Backend", "Handles checkout, payment, and stock coordination")
+
+    System_Boundary(internal, "Internal Services") {
+        System(stock_service, "📦 Stock Service", "Validates stock availability")
+        SystemDb(stock_db, "🗃️ Inventory DB", "Stores stock levels")
+    }
+}
+
+System_Ext(payment_provider, "💳 Payment Provider", "External REST API for payment processing")
+
+Rel(customer, backend, "Places order", "HTTPS/REST")
+Rel(backend, payment_provider, "Initiates payment", "HTTPS/REST")
+Rel(payment_provider, backend, "Webhook (confirmation)", "HTTPS/REST")
+Rel(backend, stock_service, "checkAvailability()", "gRPC")
+Rel(stock_service, stock_db, "Reads/Writes", "SQL")
+
+UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
 ----
 
 ==  C4Container – REST Payment Integration
 
 [source, mermaid]
 ----
+C4Container
+title Container Diagram – REST for Payment, gRPC for Stock
+
+Person(customer, "🧑 Customer", "Uses the system to shop and pay")
+
+System_Ext(payment_provider, "💳 Payment Provider", "External payment gateway (e.g., Stripe)")
+
+Container_Boundary(app, "Company Backend System") {
+    Container(client_app, "Client App", "React / Mobile", "Provides UI for shopping and payment")
+    Container(backend, "Java Backend", "Spring Boot", "Handles requests and business logic")
+    Container(stock_service, "Stock Service", "Java + gRPC", "Manages inventory availability")
+    ContainerDb(stock_db, "Inventory DB", "PostgreSQL", "Stores stock info")
+}
+
+Rel(customer, client_app, "Uses", "HTTPS")
+Rel(client_app, backend, "Places order", "HTTPS/REST")
+Rel(backend, payment_provider, "REST payment", "HTTPS")
+Rel(payment_provider, backend, "Sends webhook", "HTTPS")
+Rel(backend, stock_service, "checkAvailability()", "gRPC")
+Rel(stock_service, stock_db, "Reads/Writes", "SQL")
+
+UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
 ----

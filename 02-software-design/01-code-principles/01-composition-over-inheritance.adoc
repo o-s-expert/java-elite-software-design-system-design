@@ -1,0 +1,63 @@
+= 🍰 Composition Over Inheritance
+Otávio Santana
+:icons: font
+:source-highlighter: rouge
+:toc:
+
+== ❌ Inheritance Gone Wrong
+
+A cake has salt.
+The sea has salt.
+But a cake **is not** a sea. Yet some code tries to do this:
+
+[source,java]
+----
+class Sea {
+  boolean hasSalt() { return true; }
+}
+
+class Cake extends Sea {
+  // 🤯 Makes no semantic sense
+}
+----
+
+== ✅ Composition Done Right
+
+Use `has-a` instead of `is-a`:
+
+[source,java]
+----
+class Salt {}
+
+class Sea {
+  Salt salt = new Salt();
+}
+
+class Cake {
+  Salt salt = new Salt();
+}
+----
+
+== 🎨 Diagram
+
+[source,mermaid]
+----
+classDiagram
+  class Salt
+
+  class Sea {
+    +Salt salt
+  }
+
+  class Cake {
+    +Salt salt
+  }
+
+  Sea --> Salt : has-a
+  Cake --> Salt : has-a
+----
+
+== 💡 Key Takeaway
+
+* Use inheritance only when `A is a B` is semantically correct.
+* Use composition when `A has a B` or `A uses B`.

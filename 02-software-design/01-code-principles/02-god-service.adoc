@@ -23,7 +23,7 @@ class UserService {
 }
 ----
 
-== ✅ After: Focused Service Classes
+== After: Focused Service Classes
 
 Each class has a clear purpose (high cohesion), and dependencies are reduced (low coupling):
 
@@ -50,7 +50,7 @@ class AuditLogger {
 }
 ----
 
-== 🎨 Diagram: Separation of Concerns
+== Diagram: Separation of Concerns
 
 [source, mermaid]
 ----

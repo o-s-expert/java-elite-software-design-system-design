@@ -65,6 +65,8 @@
 
 === Basic Principles of Software Design
 
+- Why?
+-- The cost of bad software design
 - SOLID principles
     - Single Responsibility Principle (SRP)
     - Open/Closed Principle (OCP)

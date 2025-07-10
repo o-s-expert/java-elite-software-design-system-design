@@ -84,7 +84,7 @@ classDiagram
     AuditLogger --> User
 ----
 
-== 💡 Summary
+== Summary
 
 - Focused classes increase **maintainability**
 - Reduces side effects when changing behavior

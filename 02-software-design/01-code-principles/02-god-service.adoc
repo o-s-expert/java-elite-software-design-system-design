@@ -1,0 +1,91 @@
+= ☕ Refactoring the God Service: Improving Coupling and Cohesion
+Otávio Santana
+:icons: font
+:source-highlighter: rouge
+:toc:
+
+== Before: The God Service Class
+
+A single class doing too much — low cohesion, high coupling.
+
+[source,java]
+----
+class UserService {
+  void registerUser(User user) { /* DB logic */ }
+
+  void sendWelcomeEmail(User user) { /* email SMTP logic */ }
+
+  void generatePdfReport(User user) { /* PDF rendering */ }
+
+  void scheduleUserSync(User user) { /* scheduler logic */ }
+
+  void logUserHistory(User user) { /* audit log writing */ }
+}
+----
+
+== ✅ After: Focused Service Classes
+
+Each class has a clear purpose (high cohesion), and dependencies are reduced (low coupling):
+
+[source,java]
+----
+class UserRegistrationService {
+  void register(User user) { /* only registration logic */ }
+}
+
+class EmailNotificationService {
+  void sendWelcome(User user) { /* SMTP client */ }
+}
+
+class ReportService {
+  void generateUserPdf(User user) { /* PDF generation */ }
+}
+
+class UserSyncScheduler {
+  void schedule(User user) { /* async sync logic */ }
+}
+
+class AuditLogger {
+  void log(User user) { /* persistence of logs */ }
+}
+----
+
+== 🎨 Diagram: Separation of Concerns
+
+[source, mermaid]
+----
+classDiagram
+    class UserRegistrationService {
+      +register(User)
+    }
+
+    class EmailNotificationService {
+      +sendWelcome(User)
+    }
+
+    class ReportService {
+      +generateUserPdf(User)
+    }
+
+    class UserSyncScheduler {
+      +schedule(User)
+    }
+
+    class AuditLogger {
+      +log(User)
+    }
+
+    class User
+
+    UserRegistrationService --> User
+    EmailNotificationService --> User
+    ReportService --> User
+    UserSyncScheduler --> User
+    AuditLogger --> User
+----
+
+== 💡 Summary
+
+- Focused classes increase **maintainability**
+- Reduces side effects when changing behavior
+- Easier to test and debug each responsibility independently

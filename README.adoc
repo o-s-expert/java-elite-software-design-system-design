@@ -52,9 +52,9 @@
 
 === Practical Case Studies
 
+- High-scale e-commerce (like Amazon)
 - Reservation system (like Uber or Booking)
 - Social media feed (like Instagram or Twitter)
-- High-scale e-commerce (like Amazon)
 
 === Recommended Reading
 

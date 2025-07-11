@@ -5,13 +5,33 @@
 :icons: font
 :source-highlighter: rouge
 
+A social media platform like Twitter (now X) enables users to post short messages ("tweets"), follow others, like and comment, and view a real-time feed. It must support high volumes of reads and writes, scale globally, deliver low-latency feeds, and ensure eventual consistency across services like notifications, analytics, and timelines. The design should balance personalization, fan-out strategies, and throughput optimization.
+
 == System Architecture
 
 === C1 Context Diagram
 
 [source, mermaid]
 ----
+C4Context
+title System Context - Social Media Feed
 
+Enterprise_Boundary(b0, "X Platform") {
+  Person(user, "🧑 User", "Person who posts, follows, and views feeds")
+
+  System(feed_system, "📣 Feed Platform", "Handles tweets, timelines, likes, followers, and interactions")
+
+  System_Ext(notification_system, "🔔 Notification System", "Push/email notifications to users")
+  System_Ext(media_service, "🖼️ Media Storage", "Stores uploaded media (images, videos)")
+  System_Ext(auth_service, "🔐 Auth Service", "Authentication and session management")
+  System_Ext(analytics_system, "📊 Analytics Platform", "Tracks user behavior and engagement")
+
+  Rel(user, feed_system, "Posts and reads tweets")
+  Rel(feed_system, auth_service, "Validates sessions")
+  Rel(feed_system, notification_system, "Sends alerts for likes/comments/follows")
+  Rel(feed_system, media_service, "Uploads or retrieves media")
+  Rel(feed_system, analytics_system, "Sends user activity data")
+}
 ----
 
 === C2 Container Diagram

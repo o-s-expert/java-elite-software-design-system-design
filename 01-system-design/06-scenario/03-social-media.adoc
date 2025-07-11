@@ -1,0 +1,29 @@
+=  Social Media
+:toc: macro
+:toclevels: 2
+:sectnums:
+:icons: font
+:source-highlighter: rouge
+
+A reservation platform enables users to book real-time services such as rides (like Uber) or accommodations (like Booking.com). It handles real-time availability, booking consistency, payment integration, and notifications. System design must balance performance, eventual consistency, and integration with third-party services while ensuring scalability and responsiveness.
+
+== System Architecture
+
+=== C1 Context Diagram
+
+[source, mermaid]
+----
+
+----
+
+=== C2 Container Diagram
+
+[source, mermaid]
+----
+----
+
+=== System Integration Flow
+
+[source, mermaid]
+----
+----

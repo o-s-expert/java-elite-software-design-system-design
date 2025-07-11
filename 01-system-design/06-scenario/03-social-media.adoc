@@ -83,4 +83,28 @@ Rel(interaction_service, notification_system, "Triggers notifications", "HTTPS")
 
 [source, mermaid]
 ----
+sequenceDiagram
+    participant 🧑 as User
+    participant 🌐 as Web/Mobile App
+    participant 🛡 as API Gateway
+    participant 🐦 as Tweet Service
+    participant 🧑‍🤝‍🧑 as User Service
+    participant 📥 as Feed Service
+    participant ⚡ as Redis Cache
+    participant 🗃️ as Feed DB
+    participant 🔔 as Notification System
+    participant 📊 as Analytics Service
+
+    🧑->>🌐: Create new tweet
+    🌐->>🛡: POST /tweet
+    🛡->>🐦: Handle tweet creation
+    🐦->>🧑‍🤝‍🧑: Get list of followers
+    🐦->>📥: Push tweet to followers' feed (fan-out)
+    📥->>🗃️: Persist tweet in timelines
+    📥->>⚡: Update hot cache (if trending)
+    🐦->>🔔: Notify followers
+    🐦->>📊: Track tweet event
+    🐦-->>🛡: Tweet created
+    🛡-->>🌐: 201 Created
+    🌐-->>🧑: Tweet posted successfully
 ----

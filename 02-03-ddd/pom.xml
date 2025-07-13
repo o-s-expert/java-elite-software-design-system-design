@@ -23,9 +23,20 @@
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.vesion>3.3.0</maven-javadoc-plugin.vesion>
         <weld.se.core.version>6.0.3.Final</weld.se.core.version>
+        <jmolecules.version>1.9.0</jmolecules.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-ddd</artifactId>
+            <version>${jmolecules.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-layered-architecture</artifactId>
+            <version>${jmolecules.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.javamoney.moneta</groupId>
             <artifactId>moneta-core</artifactId>
@@ -66,7 +77,12 @@
             <version>4.0.0-M1</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.jmolecules.integrations</groupId>
+            <artifactId>jmolecules-archunit</artifactId>
+            <version>0.23.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
